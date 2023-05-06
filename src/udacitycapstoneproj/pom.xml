@@ -10,8 +10,9 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>udacitycapstoneproj</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>udacitycapstoneproj</name>
+    <packaging>jar</packaging>
     <description>udacitycapstoneproj</description>
     <properties>
         <java.version>17</java.version>
