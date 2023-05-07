@@ -7,11 +7,7 @@ jobs:
     docker:
     # Use the same Docker base as the project
       - image: maven:3.9-amazoncorretto-17    
-    steps:
-      #- run:
-      #    name : install wget
-      #    command: |
-      #      apt install wget
+    steps:      
       - checkout:
           path: ~/udacitycicd
       # Download and cache dependencies
@@ -28,7 +24,17 @@ jobs:
           paths:
             - ./target
           key: v1-target-{{ checksum "pom.xml" }} 
-
+  lint-code:
+    working_directory: ~/udacitycicd/src/udacitycapstoneproj
+    docker:    
+      - image: maven:3.9-amazoncorretto-17    
+    steps:     
+      - checkout:
+          path: ~/udacitycicd      
+      - run:
+          name: Check Bugs
+          command: |
+            mvn spotbugs:check            
   lint-docker:
     working_directory: ~/udacitycicd
     docker:
@@ -57,5 +63,6 @@ workflows:
   default:
     jobs:
       - build-code
+      - lint-code
       - lint-docker
 
