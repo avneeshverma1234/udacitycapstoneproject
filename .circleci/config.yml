@@ -1,33 +1,25 @@
 # Python CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
+    working_directory: ~/udacitycicd/src
     docker:
     # Use the same Docker base as the project
-      - image: python:3.7.3
-
-    working_directory: ~/repo
-
+      - image: maven:3.8.3-openjdk-17    
     steps:
-      - checkout
-
+      - checkout:
+          path: ~/udacitycicd
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-target-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
+            - v1-target-
       - run:
           name: install dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            make upgrade-pip
-            make install
+            mvn -DskipTests install
       - run:
           name: Get HadoLint
           command: |
@@ -41,12 +33,5 @@ jobs:
             export PATH=$PATH:/bin/hadolint
       - save_cache:
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-
-      # run lint!
-      - run:
-          name: run lint
-          command: |
-            . venv/bin/activate
-            make lint            
+            - ./target
+          key: v1-target-{{ checksum "pom.xml" }}     
