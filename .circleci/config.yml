@@ -23,7 +23,19 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            mvn -DskipTests install
+            mvn -DskipTests install      
+      - save_cache:
+          paths:
+            - ./target
+          key: v1-target-{{ checksum "pom.xml" }} 
+  lintdocker:
+    working_directory: ~/udacitycicd
+    docker:
+    # Use the same Docker base as the project
+      - image: python:3.7.3    
+    steps:
+      - checkout:
+          path: ~/udacitycicd
       - run:
           name: Get HadoLint
           command: |
@@ -35,7 +47,7 @@ jobs:
             # Install hadolint            
             chmod +x /bin/hadolint
             export PATH=$PATH:/bin/hadolint
-      - save_cache:
-          paths:
-            - ./target
-          key: v1-target-{{ checksum "pom.xml" }}     
+      - run:
+          name: Lint Docker file
+          command: |
+            hadolint --ignore DL3013 Dockerfile
