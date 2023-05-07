@@ -2,7 +2,7 @@
 #
 version: 2
 jobs:
-  build:
+  build-code:
     working_directory: ~/udacitycicd/src/udacitycapstoneproj
     docker:
     # Use the same Docker base as the project
@@ -28,7 +28,8 @@ jobs:
           paths:
             - ./target
           key: v1-target-{{ checksum "pom.xml" }} 
-  lintdocker:
+
+  lint-docker:
     working_directory: ~/udacitycicd
     docker:
     # Use the same Docker base as the project
@@ -51,3 +52,10 @@ jobs:
           name: Lint Docker file
           command: |
             hadolint --ignore DL3013 Dockerfile
+
+workflows:
+   default:
+    jobs:
+    - build-code
+    - lint-docker
+
