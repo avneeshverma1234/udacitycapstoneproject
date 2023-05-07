@@ -9,8 +9,7 @@ jobs:
       - image: maven:3.9-amazoncorretto-17    
     steps:      
       - checkout:
-          path: ~/udacitycicd
-      # Download and cache dependencies
+          path: ~/udacitycicd      
       - restore_cache:
           keys:
             - v1-target-{{ checksum "pom.xml" }}
@@ -30,7 +29,12 @@ jobs:
       - image: maven:3.9-amazoncorretto-17    
     steps:     
       - checkout:
-          path: ~/udacitycicd      
+          path: ~/udacitycicd  
+      - restore_cache:
+          keys:
+            - v1-target-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-target-    
       - run:
           name: Check Bugs
           command: |
