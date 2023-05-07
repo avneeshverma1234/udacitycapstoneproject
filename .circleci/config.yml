@@ -1,6 +1,6 @@
-# Python CircleCI 2.0 configuration file
-#
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@4.12.1
 jobs:
   build-code:
     working_directory: ~/udacitycicd/src/udacitycapstoneproj
@@ -54,8 +54,8 @@ jobs:
             hadolint --ignore DL3013 Dockerfile
 
 workflows:
-   default:
+  default:
     jobs:
-    - build-code
-    - lint-docker
+      - build-code
+      - lint-docker
 
