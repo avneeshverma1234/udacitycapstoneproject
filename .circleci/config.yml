@@ -8,8 +8,10 @@ jobs:
     # Use the same Docker base as the project
       - image: maven:3.8.3-openjdk-17    
     steps:
-      - install wget:
-          apt-get install wget
+      - run:
+          name : install wget
+          command: |
+            apt-get install wget
       - checkout:
           path: ~/udacitycicd
       # Download and cache dependencies
