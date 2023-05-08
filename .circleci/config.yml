@@ -84,6 +84,8 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
+            echo "${DOCKERHUB_PASS}"
+            echo "${DOCKERHUB_USERNAME}"
             echo "${DOCKERHUB_PASS}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
             docker push "${IMAGE_TAG}"     
 workflows:
