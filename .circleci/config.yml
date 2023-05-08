@@ -38,9 +38,7 @@ jobs:
           path: ~/udacitycicd  
       - restore_cache:
           keys:
-            - v1-target-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-target-    
+            - v1-target-{{ checksum "pom.xml" }}            
       - run:
           name: Check Bugs
           command: |
@@ -72,6 +70,9 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-target-{{ checksum "pom.xml" }}
       - setup_remote_docker
       - run:
           name: Build Docker image
