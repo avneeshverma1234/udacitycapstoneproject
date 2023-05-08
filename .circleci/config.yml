@@ -25,7 +25,7 @@ jobs:
           name: install dependencies
           command: |
             mvn -DskipTests install
-            mvn -DskipTests publish      
+            mvn -DskipTests package      
       - save_cache:
           paths:
             - ./target
