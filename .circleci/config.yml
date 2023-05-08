@@ -1,6 +1,12 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.12.1
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_TAG: avneeshver/helloworld:latest
+    docker:
+      - image: docker:stable
 jobs:
   build-code:
     working_directory: ~/udacitycicd/src/udacitycapstoneproj
@@ -62,11 +68,31 @@ jobs:
           name: Lint Docker file
           command: |
             hadolint --ignore DL3013 Dockerfile
-
+  build-publish-image:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build --tag "${IMAGE_TAG}" .
+      - run:
+          name: Publish Docker image
+          command: |
+            echo "${DOCKERHUB_PASS}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
+            docker push "${IMAGE_TAG}"     
 workflows:
   default:
     jobs:
       - build-code
-      - lint-code
-      - lint-docker
+      - lint-code:
+          requires:
+            - build-code
+      - lint-docker:
+          requires:
+            - build-code
+      - build-publish-image:
+          requires:
+            - lint-code
+            - lint-docker
 
