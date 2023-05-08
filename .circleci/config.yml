@@ -4,7 +4,7 @@ orbs:
 executors:
   docker-publisher:
     environment:
-      IMAGE_TAG: avneeshver/helloworld:latest
+      IMAGE_TAG: avneeshver/udacitycapstoneproj:1.0
     docker:
       - image: docker:stable
 jobs:
@@ -24,7 +24,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            mvn -DskipTests install      
+            mvn -DskipTests install
+            mvn -DskipTests publish      
       - save_cache:
           paths:
             - ./target
@@ -67,16 +68,19 @@ jobs:
           command: |
             hadolint --ignore DL3013 Dockerfile
   build-publish-image:
+    working_directory: ~/udacitycicd/src/udacitycapstoneproj
     executor: docker-publisher
     steps:
-      - checkout
+      - checkout:
+          path: ~/udacitycicd 
       - restore_cache:
           keys:
             - v1-target-{{ checksum "pom.xml" }}
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: docker build --tag "${IMAGE_TAG}" .
+          command: |            
+            docker build --tag "${IMAGE_TAG}" .
       - run:
           name: Publish Docker image
           command: |
