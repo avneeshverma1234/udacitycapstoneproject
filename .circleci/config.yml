@@ -83,23 +83,41 @@ jobs:
             docker build --tag "${IMAGE_TAG}" .
       - run:
           name: Publish Docker image
-          command: |
-            echo "${DOCKERHUB_PASS}"
-            echo "${DOCKERHUB_USERNAME}"
+          command: |            
             echo "${DOCKERHUB_PASS}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
             docker push "${IMAGE_TAG}"     
+  deploy-infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - run: 
+          name: Install Git
+          command: |
+            yum update -y && yum install git -y
+      - run:
+          name: check git version
+          command: |
+            git --version          
+      - checkout
+      - run:
+          name: Deploy infrastructure
+          no_output_timeout: 30m
+          command: |
+            cd infrastructure
+            ./deployinfrastructure.sh
 workflows:
   default:
     jobs:
-      - build-code
-      - lint-code:
-          requires:
-            - build-code
-      - lint-docker:
-          requires:
-            - build-code
-      - build-publish-image:
-          requires:
-            - lint-code
-            - lint-docker
+      - deploy-infrastructure
+      #- build-code
+      #- lint-code:
+      #    requires:
+      #      - build-code
+      #- lint-docker:
+      #    requires:
+      #      - build-code
+      #- build-publish-image:
+      #    requires:
+      #      - lint-code
+      #      - lint-docker
 
