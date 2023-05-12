@@ -17,7 +17,7 @@ spec:
         app: av-capstone-application
     spec:     
       containers:        
-        - name: msagi-capstone
+        - name: avneesh-capstone
           image: avneeshver/udacitycapstoneproj:1.0
           ports:
             - containerPort: 9080 

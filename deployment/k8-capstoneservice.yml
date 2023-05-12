@@ -8,5 +8,5 @@ spec:
     app: av-capstone-application
   ports:
     - protocol: TCP
-      port: 9080  # The port that will be exposed by this service.
-      targetPort: 9080  # Number or name of the port to access on the pods targeted by the service.
+      port: 9080
+      targetPort: 9080
