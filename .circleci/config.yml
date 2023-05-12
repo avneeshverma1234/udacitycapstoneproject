@@ -135,11 +135,11 @@ jobs:
           command: |            
             cd deployment
             kubectl apply -f k8-applicationdeployment.yml
-	          kubectl describe deployment av-capstone-application
-	          kubectl apply -f k8-capstoneservice.yml
-	          kubectl describe service av-capstone-application
-	          kubectl apply -f k8-scaler.yml
-	          kubectl get pods -o wide    
+            kubectl describe deployment av-capstone-application
+            kubectl apply -f k8-capstoneservice.yml
+            kubectl describe service av-capstone-application
+            kubectl apply -f k8-scaler.yml
+            kubectl get pods -o wide    
 
 workflows:
   default:
