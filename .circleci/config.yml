@@ -100,7 +100,8 @@ jobs:
             git --version          
       - checkout
       - run:
-          name: Deploy infrastructure          
+          name: Deploy infrastructure   
+          no_output_timeout: 30m       
           command: |            
             cd infrastructure
             aws cloudformation deploy \
@@ -110,11 +111,43 @@ jobs:
             --parameter-overrides file://eksparameters.json \
             --region "us-east-1" \
             --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
-                        
+
+  deploy-application:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - run: 
+          name: Install Git
+          command: |
+            yum update -y && yum install git -y
+      - run:
+          name: check git version
+          command: |
+            git --version          
+      - checkout
+      - run:
+          name: Create kubeconfig
+          command: |
+            aws eks --region us-east-1 update-kubeconfig --name avudacapstone-eks-cluster
+      - run:
+          name: Deploy application   
+          no_output_timeout: 30m       
+          command: |            
+            cd deployment
+            kubectl apply -f k8-applicationdeployment.yml
+	          kubectl describe deployment av-capstone-application
+	          kubectl apply -f k8-capstoneservice.yml
+	          kubectl describe service av-capstone-application
+	          kubectl apply -f k8-scaler.yml
+	          kubectl get pods -o wide    
+
 workflows:
   default:
     jobs:
       - deploy-infrastructure
+      - deploy-application:
+          requires:
+            - deploy-infrastructure
       #- build-code
       #- lint-code:
       #    requires:

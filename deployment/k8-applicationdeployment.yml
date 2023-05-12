@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: av-capstone-application
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 100%
+  selector:
+    matchLabels:
+      app: av-capstone-application
+  template:
+    metadata:
+      labels:
+        app: av-capstone-application
+    spec:     
+      containers:        
+        - name: msagi-capstone
+          image: avneeshver/udacitycapstoneproj:1.0
+          ports:
+            - containerPort: 9080 
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+      terminationGracePeriodSeconds: 1
