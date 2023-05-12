@@ -6,7 +6,7 @@ spec:
   type: LoadBalancer
   selector:
     app: av-capstone-application
-    version: "3.0"
+    version: "2.0"
   ports:
     - protocol: TCP
       port: 9080
