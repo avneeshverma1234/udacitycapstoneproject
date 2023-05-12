@@ -185,9 +185,8 @@ jobs:
       - run:
           name: Test application
           command: |
-            chmod +x ./test/smoketest.sh
-            cd test
-            ./smoketest.sh
+            chmod +x ./test/smoketest.sh           
+            ./test/smoketest.sh
 
 workflows:
   default:
