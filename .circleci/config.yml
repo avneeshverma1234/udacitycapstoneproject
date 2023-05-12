@@ -144,13 +144,12 @@ jobs:
             aws eks --region us-east-1 update-kubeconfig --name avudacapstone-eks-cluster
       - run:
           name: Deploy application             
-          command: |            
-            cd deployment
-            ./kubectl apply -f k8-applicationdeployment.yml
+          command: |                        
+            ./kubectl apply -f ./deployment/k8-applicationdeployment.yml
             ./kubectl describe deployment av-capstone-application
-            ./kubectl apply -f k8-capstoneservice.yml
+            ./kubectl apply -f ./deployment/k8-capstoneservice.yml
             ./kubectl describe service av-capstone-application
-            ./kubectl apply -f k8-scaler.yml
+            ./kubectl apply -f ./deployment/k8-scaler.yml
             ./kubectl get pods -o wide    
 
 workflows:
