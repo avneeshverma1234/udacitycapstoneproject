@@ -100,12 +100,17 @@ jobs:
             git --version          
       - checkout
       - run:
-          name: Deploy infrastructure
-          no_output_timeout: 30m
+          name: Deploy infrastructure          
           command: |            
             cd infrastructure
-            sudo su -
-            ./deployinfrastructure.sh
+            aws cloudformation deploy \
+            --stack-name udacitycapstone-${CIRCLE_WORKFLOW_ID:0:5} \
+            --tags project=udacitycapstone \
+            --template-file eksvpcsubnets.yaml \
+            --parameter-overrides file://eksparameters.json \
+            --region "us-east-1" \
+            --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
+                        
 workflows:
   default:
     jobs:
