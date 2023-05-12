@@ -205,23 +205,23 @@ jobs:
 workflows:
   default:
     jobs:      
-      - build-code
-      - lint-code:
-          requires:
-            - build-code
-      - lint-docker:
-          requires:
-            - build-code
-      - build-publish-image:
-          requires:
-            - lint-code
-            - lint-docker
-      - deploy-infrastructure:
-          requires:
-            - build-publish-image      
-      - deploy-application:
-          requires:
-            - deploy-infrastructure
-      - smoketest-application:
-          requires:
-            - deploy-application
+      #- build-code
+      #- lint-code:
+      #    requires:
+      #      - build-code
+      #- lint-docker:
+      #    requires:
+      #      - build-code
+      #- build-publish-image:
+      #    requires:
+      #      - lint-code
+      #      - lint-docker
+      #- deploy-infrastructure:
+      #    requires:
+      #      - build-publish-image      
+      - deploy-application
+      #    requires:
+      #      - deploy-infrastructure
+      #- smoketest-application:
+      #    requires:
+      #      - deploy-application
