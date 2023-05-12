@@ -133,8 +133,7 @@ jobs:
             mkdir -p $HOME/bin 
             cp ./kubectl $HOME/bin/kubectl
             export PATH=$HOME/bin:$PATH            
-            echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-            kubectl version --short --client
+            echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc            
       - run:
           name: Display kubectl version
           command: |
@@ -147,12 +146,12 @@ jobs:
           name: Deploy application             
           command: |            
             cd deployment
-            kubectl apply -f k8-applicationdeployment.yml
-            kubectl describe deployment av-capstone-application
-            kubectl apply -f k8-capstoneservice.yml
-            kubectl describe service av-capstone-application
-            kubectl apply -f k8-scaler.yml
-            kubectl get pods -o wide    
+            ./kubectl apply -f k8-applicationdeployment.yml
+            ./kubectl describe deployment av-capstone-application
+            ./kubectl apply -f k8-capstoneservice.yml
+            ./kubectl describe service av-capstone-application
+            ./kubectl apply -f k8-scaler.yml
+            ./kubectl get pods -o wide    
 
 workflows:
   default:
