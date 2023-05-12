@@ -16,11 +16,9 @@ jobs:
     steps:      
       - checkout:
           path: ~/udacitycicd      
-      #- restore_cache:
-      #    keys:
-      #      - v1-target-{{ checksum "pom.xml" }}
-      #      # fallback to using the latest cache if no exact match is found
-      #      - v1-target-
+      - restore_cache:
+          keys:
+            - v1-target-{{ checksum "pom.xml" }}
       - run:
           name: install dependencies
           command: |
