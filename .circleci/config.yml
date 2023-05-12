@@ -4,7 +4,7 @@ orbs:
 executors:
   docker-publisher:
     environment:
-      IMAGE_TAG: avneeshver/udacitycapstoneproj:2.1
+      IMAGE_TAG: avneeshver/udacitycapstoneproj:3.0
     docker:
       - image: docker:stable
 jobs:
