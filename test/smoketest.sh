@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-eksElbHostName=$(kubectl get svc av-capstone-application -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
+eksElbHostName=$(./kubectl get svc av-capstone-application -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
 if [ -z "${eksElbHostName}" ]; then
     echo "Cannot determine service host name. Check kubeconfig!"
     exit -1
