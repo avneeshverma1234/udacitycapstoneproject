@@ -225,7 +225,7 @@ workflows:
                 - infrastructure      
       - deploy-application:
           requires:
-            - deploy-infrastructure
+            - build-publish-image
       - smoketest-application:
           requires:
             - deploy-application
