@@ -126,6 +126,14 @@ jobs:
             git --version          
       - checkout
       - run:
+          name: Install kubectl
+          command: |
+            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+            echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+            kubectl version --short --client
+      - run:
           name: Create kubeconfig
           command: |
             aws eks --region us-east-1 update-kubeconfig --name avudacapstone-eks-cluster
@@ -144,10 +152,10 @@ jobs:
 workflows:
   default:
     jobs:
-      - deploy-infrastructure
-      - deploy-application:
-          requires:
-            - deploy-infrastructure
+      #- deploy-infrastructure
+      - deploy-application
+      #    requires:
+      #      - deploy-infrastructure
       #- build-code
       #- lint-code:
       #    requires:
