@@ -102,8 +102,9 @@ jobs:
       - run:
           name: Deploy infrastructure
           no_output_timeout: 30m
-          command: |
+          command: |            
             cd infrastructure
+            sudo su -
             ./deployinfrastructure.sh
 workflows:
   default:
