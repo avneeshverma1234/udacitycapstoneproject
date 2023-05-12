@@ -1,4 +1,4 @@
 FROM openjdk:17.0.1-jdk-slim
-ARG JAR_FILE=./target/udacitycapstoneproj-2.0.1.jar
+ARG JAR_FILE=./target/udacitycapstoneproj-2.1.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
