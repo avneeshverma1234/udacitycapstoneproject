@@ -152,11 +152,47 @@ jobs:
             ./kubectl apply -f ./deployment/k8-scaler.yml
             ./kubectl get pods -o wide    
 
+  smoketest-application:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - run: 
+          name: Install Git
+          command: |
+            yum update -y && yum install git -y
+      - run:
+          name: check git version
+          command: |
+            git --version          
+      - checkout
+      - run:
+          name: Install kubectl
+          command: |
+            curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mkdir -p $HOME/bin 
+            cp ./kubectl $HOME/bin/kubectl
+            export PATH=$HOME/bin:$PATH            
+            echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc            
+      - run:
+          name: Display kubectl version
+          command: |
+            ./kubectl version --short --client
+      - run:
+          name: Create kubeconfig
+          command: |
+            aws eks --region us-east-1 update-kubeconfig --name avudacapstone-eks-cluster
+      - run:
+          name: Test application
+          command: |
+            ./test/smoketest.sh
+
 workflows:
   default:
     jobs:
+      - smoketest-application
       #- deploy-infrastructure
-      - deploy-application
+      #- deploy-application
       #    requires:
       #      - deploy-infrastructure
       #- build-code

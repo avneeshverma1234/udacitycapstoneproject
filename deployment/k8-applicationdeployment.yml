@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: av-capstone-application
 spec:
-  replicas: 3
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
