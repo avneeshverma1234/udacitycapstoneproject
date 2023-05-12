@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: av-capstone-application
+  name: av-capstone-application  
 spec:
   replicas: 2
   strategy:
@@ -11,10 +11,12 @@ spec:
   selector:
     matchLabels:
       app: av-capstone-application
+      version: "2.0"
   template:
     metadata:
       labels:
         app: av-capstone-application
+        version: "2.0"
     spec:     
       containers:        
         - name: avneesh-capstone
