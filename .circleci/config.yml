@@ -145,13 +145,27 @@ jobs:
       - run:
           name: Deploy application             
           command: |                        
-            ./kubectl apply -f ./deployment/k8-applicationdeployment.yml
-            ./kubectl describe deployment av-capstone-application
-            ./kubectl apply -f ./deployment/k8-capstoneservice.yml
-            ./kubectl describe service av-capstone-application
+            ./kubectl apply -f ./deployment/k8-applicationdeployment.yml            
+      - run:
+          name: Deploy application  Service
+          command: |                                    
+            ./kubectl apply -f ./deployment/k8-capstoneservice.yml                        
+      - run:
+          name: Deploy application  Scaler
+          command: |                                                
             ./kubectl apply -f ./deployment/k8-scaler.yml
-            ./kubectl get pods -o wide    
-
+      - run:
+          name: Describe application Service
+          command: |                                    
+             ./kubectl describe service av-capstone-application                        
+      - run:
+          name: Describe application deployment
+          command: |                                    
+             ./kubectl describe deployment av-capstone-application      
+      - run:
+          name: Describe application Pods
+          command: |                                    
+             ./kubectl get pods -o wide                          
   smoketest-application:
     docker:
       - image: amazon/aws-cli
