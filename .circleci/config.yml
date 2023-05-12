@@ -128,16 +128,19 @@ jobs:
       - run:
           name: Install kubectl
           command: |
-            curl -O  /bin/kubectlexe https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/linux/amd64/kubectl
-            chmod +x /bin/kubectlexe
-            export PATH=$PATH:/bin/kubectlexe
+            curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.2/2023-03-17/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mkdir -p $HOME/bin 
+            cp ./kubectl $HOME/bin/kubectl
+            export PATH=$HOME/bin:$PATH
+            #export PATH=$PATH:/bin/kubectlexe
             #mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-            #echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+            echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
             kubectl version --short --client
       - run:
           name: Display kubectl version
           command: |
-            kubectl version --short --client
+            ./kubectl version --short --client
       - run:
           name: Create kubeconfig
           command: |
