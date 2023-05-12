@@ -18,7 +18,7 @@ spec:
     spec:     
       containers:        
         - name: avneesh-capstone
-          image: avneeshver/udacitycapstoneproj:1.0
+          image: avneeshver/udacitycapstoneproj:2.0
           ports:
             - containerPort: 9080 
           resources:
